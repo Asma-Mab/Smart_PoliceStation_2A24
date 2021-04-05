@@ -13,3 +13,14 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::on_pushButton_clicked()
+{
+    //ouverture connection base de donnees
+
+    if( c.createconnect()){
+     close();
+     gestion_selmen *go;
+     go = new gestion_selmen();
+     go->show();
+     }
+}
