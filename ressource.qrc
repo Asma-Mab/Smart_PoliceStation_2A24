@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/resouces">
+        <file>img/logo 75.png</file>
+        <file>Untitled-1.png</file>
+        <file>img/Untitled-1.png</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>icon.png</file>
+        <file>img/logo 75.png</file>
+        <file>img/logo 70.png</file>
+    </qresource>
+</RCC>
