@@ -14,12 +14,11 @@
 #include <QTextDocument>
 #include <QPrintDialog>
 #include <QTextStream>
+#include <QSystemTrayIcon>
 
 
 #include "zone.h"
-#include "add_zone.h"
 #include "infraction.h"
-#include "add_infraction.h"
 
 namespace Ui {
 class gestion_dhia;
@@ -40,25 +39,14 @@ public:
     void show_tables();
 
 private slots:
-    void on_actionadd_zone_triggered();
 
     void on_table_zone_clicked(const QModelIndex &index);
-
-    void on_table_zone_doubleClicked(const QModelIndex &index);
-
-    void on_actiondelete_zone_triggered();
 
     void on_zone_sel_col_currentIndexChanged(const QString &arg1);
 
     void on_rech_zone_textChanged(const QString &arg1);
 
-    void on_actionadd_infraction_triggered();
-
     void on_table_infraction_clicked(const QModelIndex &index);
-
-    void on_table_infraction_doubleClicked(const QModelIndex &index);
-
-    void on_actiondelete_infraction_triggered();
 
     void on_infraction_sel_col_currentIndexChanged(const QString &arg1);
 
@@ -66,11 +54,36 @@ private slots:
 
     void on_pushButton_2_clicked();
 
+    void on_deleteinfraction_clicked();
+
+    void on_deletezone_clicked();
+
+    void on_btnajoutzone_clicked();
+
+    void on_btnajout_clicked();
+
+    void on_id_inf_modif_currentIndexChanged(const QString &arg1);
+
+    void on_id_modif_zone_currentIndexChanged(const QString &arg1);
+
+    void on_btnmodifzone_clicked();
+
+    void on_btnmodif_clicked();
+
+    void sendMail();
+
+    void mailSent(QString);
+
 
 private:
     Ui::gestion_dhia *ui;
     QString selected_zone="",selected_infraction="";
     int sel_col_zone=-1,sel_col_infraction=-1;
+    infraction inf;
+    zone tmpzone;
+
+    QSystemTrayIcon * trayIcon;
+
 };
 
 #endif // GESTION_DHIA_H

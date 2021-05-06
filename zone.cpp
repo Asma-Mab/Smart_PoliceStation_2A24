@@ -64,3 +64,25 @@ bool zone::modifier(QString selected){
 
 
   }
+
+  QSqlQueryModel * zone::remplircombozone()
+  {
+      QSqlQueryModel * mod= new QSqlQueryModel();
+      QSqlQuery query;
+      query.prepare("select ID from ZONE");
+      query.exec();
+      mod->setQuery(query);
+      return mod;
+  }
+
+  QSqlQuery zone::request(QString id)
+  {
+      QSqlQuery query;
+      query.prepare("select * from ZONE where ID= '"+id+"'");
+      query.addBindValue(id);
+      query.exec();
+      return query;
+  }
+
+
+

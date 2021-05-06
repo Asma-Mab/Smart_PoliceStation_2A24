@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/resouces">
+        <file>Untitled-1.png</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>icon.png</file>
+    </qresource>
+</RCC>

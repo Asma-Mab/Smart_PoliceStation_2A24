@@ -19,6 +19,8 @@ public:
       bool supprimer(QString);
 
       void count_infractions();
+      QSqlQueryModel * remplircombinf();
+      QSqlQuery request(QString);
 
     QString id,date,heure,type,zone;
 };

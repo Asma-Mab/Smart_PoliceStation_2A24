@@ -103,3 +103,23 @@ bool infraction::modifier(QString selected){
 
   }
 
+  QSqlQueryModel * infraction::remplircombinf()
+  {
+      QSqlQueryModel * mod= new QSqlQueryModel();
+      QSqlQuery query;
+      query.prepare("select ID from INFRACTION");
+      query.exec();
+      mod->setQuery(query);
+      return mod;
+  }
+
+  QSqlQuery infraction::request(QString id)
+  {
+      QSqlQuery query;
+      query.prepare("select * from INFRACTION where ID= '"+id+"'");
+      query.addBindValue(id);
+      query.exec();
+      return query;
+  }
+
+

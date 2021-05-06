@@ -14,6 +14,8 @@ public:
     bool modifier(QString);
      QSqlQueryModel * afficher();
       bool supprimer(QString);
+      QSqlQueryModel * remplircombozone();
+      QSqlQuery request(QString);
 
     QString id,ville,rue;
 };
