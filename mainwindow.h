@@ -17,6 +17,12 @@
 #include "secretaire.h"
 #include "plaintes.h"
 #include "personne.h"
+#include "smtp.h"
+
+#include <QTimer>
+#include <QDateTime>
+#include <QLabel>
+#include <QObject>
 
 
 QT_BEGIN_NAMESPACE
@@ -145,6 +151,14 @@ private slots:
 
     void on_radioButton_2_clicked();
 
+    //timer clock
+          void clock();
+          //mail functions
+          void sendMail();
+          void mailSent(QString);
+          void browse();
+
+
 private:
     int getIDFromTableView(QTableView * tv);
     Ui::MainWindow *ui;
@@ -156,5 +170,11 @@ private:
      Plaintes tmpp;
      Personne *trier1,*p;
      Personne tmppers;
+     QTimer *timer;
+      QStringList files;
 };
+
+
+
+
 #endif // MAINWINDOW_H

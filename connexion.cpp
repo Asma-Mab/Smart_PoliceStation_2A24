@@ -1,19 +1,25 @@
 #include "connexion.h"
-
-Connexion::Connexion()
+#include <QSqlError>
+connexion::connexion()
 {
 
 }
 
-bool Connexion::createconnect()
+bool connexion::createconnect()
 {bool test=false;
 QSqlDatabase db = QSqlDatabase::addDatabase("QODBC");
-db.setDatabaseName("projet_2A");
-db.setUserName("dhia");//inserer nom de l'utilisateur
-db.setPassword("SYSTEM");//inserer mot de passe de cet utilisateur
+db.setDatabaseName("validation");
+db.setUserName("zizo");//inserer nom de l'utilisateur
+db.setPassword("zizo");//inserer mot de passe de cet utilisateur
 
 if (db.open())
 test=true;
-
-    return  test;
+else throw QString ("Erreur Paramétres"+db.lastError().text());
+return  test;
 }
+
+
+
+void connexion::fermerconnexion()
+{db.close();}
+

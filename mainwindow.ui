@@ -185,7 +185,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="ressource.qrc">
+        <iconset>
          <normaloff>:/resouces/Untitled-1.png</normaloff>:/resouces/Untitled-1.png</iconset>
        </property>
        <property name="iconSize">
@@ -1187,7 +1187,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="ressource.qrc">
+        <iconset>
          <normaloff>:/resouces/Untitled-1.png</normaloff>:/resouces/Untitled-1.png</iconset>
        </property>
        <property name="iconSize">
@@ -2070,7 +2070,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="ressource.qrc">
+        <iconset>
          <normaloff>:/resouces/Untitled-1.png</normaloff>:/resouces/Untitled-1.png</iconset>
        </property>
        <property name="iconSize">
@@ -2212,7 +2212,7 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset resource="ressource.qrc">
+        <iconset>
          <normaloff>:/resouces/Untitled-1.png</normaloff>:/resouces/Untitled-1.png</iconset>
        </property>
        <property name="iconSize">
@@ -2436,11 +2436,249 @@
       </widget>
      </widget>
     </widget>
+    <widget class="QWidget" name="page_5">
+     <widget class="QLineEdit" name="uname">
+      <property name="geometry">
+       <rect>
+        <x>380</x>
+        <y>110</y>
+        <width>377</width>
+        <height>22</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_13">
+      <property name="geometry">
+       <rect>
+        <x>297</x>
+        <y>141</y>
+        <width>60</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Password:</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="file">
+      <property name="geometry">
+       <rect>
+        <x>410</x>
+        <y>240</y>
+        <width>275</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="paswd">
+      <property name="geometry">
+       <rect>
+        <x>380</x>
+        <y>141</y>
+        <width>377</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="inputMask">
+       <string/>
+      </property>
+      <property name="echoMode">
+       <enum>QLineEdit::Password</enum>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="rcpt">
+      <property name="geometry">
+       <rect>
+        <x>380</x>
+        <y>172</y>
+        <width>377</width>
+        <height>22</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="sendBtn">
+      <property name="geometry">
+       <rect>
+        <x>890</x>
+        <y>360</y>
+        <width>93</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Send</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_14">
+      <property name="geometry">
+       <rect>
+        <x>297</x>
+        <y>234</y>
+        <width>70</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Attachment:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_15">
+      <property name="geometry">
+       <rect>
+        <x>297</x>
+        <y>273</y>
+        <width>55</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Message:</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="port">
+      <property name="geometry">
+       <rect>
+        <x>380</x>
+        <y>79</y>
+        <width>377</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>465</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_16">
+      <property name="geometry">
+       <rect>
+        <x>297</x>
+        <y>79</y>
+        <width>70</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Server port:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_17">
+      <property name="geometry">
+       <rect>
+        <x>297</x>
+        <y>48</y>
+        <width>76</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Smtp-server:</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="browseBtn">
+      <property name="geometry">
+       <rect>
+        <x>740</x>
+        <y>240</y>
+        <width>93</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Browse...</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="server">
+      <property name="geometry">
+       <rect>
+        <x>381</x>
+        <y>50</y>
+        <width>377</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>smtp.gmail.com</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_18">
+      <property name="geometry">
+       <rect>
+        <x>297</x>
+        <y>110</y>
+        <width>63</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Username:</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="subject">
+      <property name="geometry">
+       <rect>
+        <x>380</x>
+        <y>203</y>
+        <width>377</width>
+        <height>22</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_19">
+      <property name="geometry">
+       <rect>
+        <x>297</x>
+        <y>203</y>
+        <width>48</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Subject:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_20">
+      <property name="geometry">
+       <rect>
+        <x>297</x>
+        <y>172</y>
+        <width>69</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Recipant to:</string>
+      </property>
+     </widget>
+     <widget class="QPlainTextEdit" name="msg">
+      <property name="geometry">
+       <rect>
+        <x>380</x>
+        <y>273</y>
+        <width>377</width>
+        <height>136</height>
+       </rect>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QLabel" name="clock">
+    <property name="geometry">
+     <rect>
+      <x>1079</x>
+      <y>10</y>
+      <width>191</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
    </widget>
   </widget>
  </widget>
- <resources>
-  <include location="ressource.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

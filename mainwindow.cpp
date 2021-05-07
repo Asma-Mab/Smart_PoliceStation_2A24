@@ -36,12 +36,61 @@ MainWindow::MainWindow(QWidget *parent)
        painter.setFont(QFont("Arial", 30));
     QHeaderView *header=ui->listebus->horizontalHeader() ;
     QObject::connect(header,SIGNAL(sectionClicked ( int )),this,SLOT(modifierr(int)) ) ;
+
+    //time
+        timer = new QTimer(this);
+        connect(timer, SIGNAL(timeout()), this, SLOT(clock()));
+        timer->start(1000);
+        //mail
+        connect(ui->sendBtn, SIGNAL(clicked()),this, SLOT(sendMail()));
+
+        connect(ui->browseBtn, SIGNAL(clicked()), this, SLOT(browse()));
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
 }
+void MainWindow::browse()
+{
+    files.clear();
+
+    QFileDialog dialog(this);
+    dialog.setDirectory(QDir::homePath());
+    dialog.setFileMode(QFileDialog::ExistingFiles);
+
+    if (dialog.exec())
+        files = dialog.selectedFiles();
+
+    QString fileListString;
+    foreach(QString file, files)
+        fileListString.append( "\"" + QFileInfo(file).fileName() + "\" " );
+
+    ui->file->setText( fileListString );
+
+}
+void MainWindow::sendMail()
+{
+    Smtp* smtp = new Smtp(ui->uname->text(), ui->paswd->text(), ui->server->text(), ui->port->text().toInt());
+    connect(smtp, SIGNAL(status(QString)), this, SLOT(mailSent(QString)));
+
+    if( !files.isEmpty() )
+        smtp->sendMail(ui->uname->text(), ui->rcpt->text() , ui->subject->text(),ui->msg->toPlainText(), files );
+    else
+        smtp->sendMail(ui->uname->text(), ui->rcpt->text() , ui->subject->text(),ui->msg->toPlainText());
+}
+void MainWindow::mailSent(QString status)
+{
+    if(status == "Message sent")
+        QMessageBox::warning( 0, tr( "Qt Simple SMTP client" ), tr( "Message sent!\n\n" ) );
+}
+void MainWindow::clock()
+{
+    QTime time = QTime::currentTime();
+    QString time_text = time.toString("hh : mm : ss"); // el format tnejem tbadlo
+    ui->clock->setText(time_text); // a3mel label fel design samiha clock wala badalha
+}
+
 /*
 
 
@@ -329,7 +378,7 @@ void MainWindow::on_confirmer_A_R_clicked()
 
     SmtpClient smtp("smtp.gmail.com", 465, SmtpClient::SslConnection);
 
-/*
+
 
 
 
@@ -390,7 +439,7 @@ void MainWindow::on_confirmer_A_R_clicked()
 
            smtp.quit();
 
-*/
+
     int id = ui->id_line->text().toInt();
     QString nom= ui->name_line->text();
     QString prenom= ui->prenom_line->text();
@@ -444,6 +493,8 @@ void MainWindow::on_confirmer_A_R_clicked()
      painter.drawText(400,700,adresse);
      painter.drawText(400,850,date);
      painter.drawText(400,1050,sexe);
+
+
 
 
      painter.end();
