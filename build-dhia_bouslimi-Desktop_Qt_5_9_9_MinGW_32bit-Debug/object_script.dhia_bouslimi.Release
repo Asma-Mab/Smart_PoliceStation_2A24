@@ -1,0 +1,15 @@
+INPUT(
+./release\add_infraction.o
+./release\add_zone.o
+./release\connexion.o
+./release\gestion_dhia.o
+./release\infraction.o
+./release\main.o
+./release\mainwindow.o
+./release\zone.o
+./release\qrc_Resources.o
+./release\moc_add_infraction.o
+./release\moc_add_zone.o
+./release\moc_gestion_dhia.o
+./release\moc_mainwindow.o
+);

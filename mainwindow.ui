@@ -27,7 +27,7 @@
      <string/>
     </property>
     <property name="pixmap">
-     <pixmap resource="ressource.qrc">:/resouces/img/Untitled-1.png</pixmap>
+     <pixmap>:/resouces/img/Untitled-1.png</pixmap>
     </property>
    </widget>
    <widget class="QLabel" name="agentname">
@@ -77,8 +77,8 @@
      <rect>
       <x>-20</x>
       <y>59</y>
-      <width>1361</width>
-      <height>661</height>
+      <width>1781</width>
+      <height>741</height>
      </rect>
     </property>
     <property name="currentIndex">
@@ -89,9 +89,9 @@
       <property name="geometry">
        <rect>
         <x>40</x>
-        <y>20</y>
+        <y>10</y>
         <width>811</width>
-        <height>601</height>
+        <height>641</height>
        </rect>
       </property>
       <property name="font">
@@ -109,7 +109,7 @@
         <rect>
          <x>10</x>
          <y>60</y>
-         <width>811</width>
+         <width>851</width>
          <height>471</height>
         </rect>
        </property>
@@ -265,13 +265,45 @@
         <string>Chercher</string>
        </property>
       </widget>
+      <widget class="QRadioButton" name="radioButton">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>580</y>
+         <width>321</width>
+         <height>52</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>321</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>tri par nom</string>
+       </property>
+      </widget>
+      <widget class="QRadioButton" name="radioButton_2">
+       <property name="geometry">
+        <rect>
+         <x>370</x>
+         <y>600</y>
+         <width>321</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Tri par Id</string>
+       </property>
+      </widget>
      </widget>
      <widget class="QGroupBox" name="groupBox_2">
       <property name="geometry">
        <rect>
-        <x>890</x>
+        <x>870</x>
         <y>310</y>
-        <width>431</width>
+        <width>521</width>
         <height>321</height>
        </rect>
       </property>
@@ -288,7 +320,7 @@
       <widget class="QStackedWidget" name="stackedWidget_2">
        <property name="geometry">
         <rect>
-         <x>-20</x>
+         <x>100</x>
          <y>20</y>
          <width>451</width>
          <height>331</height>
@@ -301,9 +333,9 @@
         <widget class="QTableView" name="tableView_2">
          <property name="geometry">
           <rect>
-           <x>20</x>
+           <x>-10</x>
            <y>40</y>
-           <width>431</width>
+           <width>351</width>
            <height>201</height>
           </rect>
          </property>
@@ -1010,7 +1042,7 @@
      <widget class="QPushButton" name="ajouter_rdv">
       <property name="geometry">
        <rect>
-        <x>910</x>
+        <x>870</x>
         <y>30</y>
         <width>411</width>
         <height>51</height>
@@ -1030,7 +1062,7 @@
      <widget class="QPushButton" name="supprimer_rdv">
       <property name="geometry">
        <rect>
-        <x>910</x>
+        <x>870</x>
         <y>100</y>
         <width>411</width>
         <height>51</height>
@@ -1052,7 +1084,7 @@
      <widget class="QPushButton" name="modifier_rdv">
       <property name="geometry">
        <rect>
-        <x>910</x>
+        <x>870</x>
         <y>170</y>
         <width>411</width>
         <height>51</height>
@@ -1072,7 +1104,7 @@
      <widget class="QPushButton" name="pushButton_16">
       <property name="geometry">
        <rect>
-        <x>910</x>
+        <x>870</x>
         <y>240</y>
         <width>411</width>
         <height>51</height>

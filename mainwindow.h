@@ -141,6 +141,10 @@ private slots:
     void on_confirmerAS_clicked();
     void modifierr(int index) ;
 
+    void on_radioButton_clicked();
+
+    void on_radioButton_2_clicked();
+
 private:
     int getIDFromTableView(QTableView * tv);
     Ui::MainWindow *ui;

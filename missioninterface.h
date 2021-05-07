@@ -4,6 +4,10 @@
 #include <QDialog>
 #include "mission.h"
 #include "vehicule.h"
+#include <QSystemTrayIcon>
+#include <QtPrintSupport/QPrintDialog>
+#include <QPrinter>
+#include <QPrintPreviewDialog>
 
 namespace Ui {
 class MissionInterface;
@@ -50,9 +54,12 @@ private slots:
     void on_comboBox_tri_vehicule_currentIndexChanged(const QString &arg1);
 
     void statrefresh();
+    void on_btnpdf_clicked();
+
 private:
     mission tmpmission;
     vehicule tmpvehicule;
+    QSystemTrayIcon * trayIcon;
 
     Ui::MissionInterface *ui;
 };

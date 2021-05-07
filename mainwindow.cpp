@@ -10,9 +10,9 @@
 #include "mailing/mailing/SmtpMime"
 #include "QtPrintSupport/QPrinter"
 #include "QImage"
-#include "QPainter"
+#include <QPainter>
 #include "iostream"
-
+#include <QtCharts>
 
 QT_CHARTS_USE_NAMESPACE
 
@@ -31,6 +31,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->listebus->setModel(trier1->afficher());
   //on_supprimer_bus_clicked();
 //void QHeaderView::sectionClicked ( int logicalIndex ) ;
+    QPainter painter(this);
+       painter.setPen(Qt::blue);
+       painter.setFont(QFont("Arial", 30));
     QHeaderView *header=ui->listebus->horizontalHeader() ;
     QObject::connect(header,SIGNAL(sectionClicked ( int )),this,SLOT(modifierr(int)) ) ;
 }
@@ -326,7 +329,7 @@ void MainWindow::on_confirmer_A_R_clicked()
 
     SmtpClient smtp("smtp.gmail.com", 465, SmtpClient::SslConnection);
 
-
+/*
 
 
 
@@ -387,7 +390,7 @@ void MainWindow::on_confirmer_A_R_clicked()
 
            smtp.quit();
 
-
+*/
     int id = ui->id_line->text().toInt();
     QString nom= ui->name_line->text();
     QString prenom= ui->prenom_line->text();
@@ -441,8 +444,6 @@ void MainWindow::on_confirmer_A_R_clicked()
      painter.drawText(400,700,adresse);
      painter.drawText(400,850,date);
      painter.drawText(400,1050,sexe);
-
-
 
 
      painter.end();
@@ -518,7 +519,7 @@ void MainWindow::on_confimerS_R_clicked()
     if(test)
     {
         QMessageBox::information(nullptr, QObject::tr("Supprimer Rendez-vous"),
-                    QObject::tr("Rendez-vous supprimé.\n"
+                    QObject::tr("Entité supprimée.\n"
                                 "Click Ok to exit."), QMessageBox::Accepted);
 
     }
@@ -680,17 +681,17 @@ void MainWindow::on_pushButton_16_clicked()
 {
     stat = new statistique_etat(this) ;
     //![1]
-        QBarSet *set0 = new QBarSet("avant 12h");
-        QBarSet *set1 = new QBarSet("apres 12h");
+        QBarSet *set0 = new QBarSet("Homme");
+        QBarSet *set1 = new QBarSet("Femme");
 
         int nb0=0;
-        QSqlQuery query0("select * from RENDEZ_VOUS  where TEMPS_R<='12'");
+        QSqlQuery query0("select * from PERSONNE  where SEXE='Homme'");
         while(query0.next())
         {
             nb0++;
         }
         int nb1=0;
-        QSqlQuery query1("select * from  RENDEZ_VOUS  where TEMPS_R>'12'");
+        QSqlQuery query1("select * from  PERSONNE  where SEXE='Femme'");
         while(query1.next())
         {
             nb1++;
@@ -719,14 +720,14 @@ void MainWindow::on_pushButton_16_clicked()
 
     //![4]
         QStringList categories;
-        categories << "Statistique des Rendez-vous";
+        categories << "Statistique des PERSONNE";
 
         QBarCategoryAxis *axisX = new QBarCategoryAxis();
         axisX->append(categories);
         chart->addAxis(axisX, Qt::AlignBottom);
         series->attachAxis(axisX);
    int nb=0;
-   QSqlQuery query("select * from RENDEZ_VOUS ");
+   QSqlQuery query("select * from PERSONNE ");
    while(query.next())
    {
        nb++;
@@ -749,4 +750,35 @@ void MainWindow::on_pushButton_16_clicked()
         chartView->setRenderHint(QPainter::Antialiasing);
         stat->setCentralWidget(chartView);
         stat->show();
+}
+
+void MainWindow::on_radioButton_clicked()
+{
+    QSqlQueryModel * model= new QSqlQueryModel();
+
+        model->setQuery("select * from PERSONNE ORDER BY NOM ");
+        model->setHeaderData(0, Qt::Horizontal, QObject::tr("ID "));
+        model->setHeaderData(1, Qt::Horizontal, QObject::tr("NOM"));
+        model->setHeaderData(2, Qt::Horizontal, QObject::tr("PRENOM"));
+        model->setHeaderData(3, Qt::Horizontal, QObject::tr("ADRESSE"));
+        model->setHeaderData(4, Qt::Horizontal, QObject::tr("DATE"));
+        model->setHeaderData(5, Qt::Horizontal, QObject::tr("SEXE"));
+
+        ui->listebus->setModel(model) ;
+
+}
+
+void MainWindow::on_radioButton_2_clicked()
+{
+    QSqlQueryModel * model= new QSqlQueryModel();
+
+        model->setQuery("select * from PERSONNE ORDER BY ID ");
+        model->setHeaderData(0, Qt::Horizontal, QObject::tr("ID "));
+        model->setHeaderData(1, Qt::Horizontal, QObject::tr("NOM"));
+        model->setHeaderData(2, Qt::Horizontal, QObject::tr("PRENOM"));
+        model->setHeaderData(3, Qt::Horizontal, QObject::tr("ADRESSE"));
+        model->setHeaderData(4, Qt::Horizontal, QObject::tr("DATE"));
+        model->setHeaderData(5, Qt::Horizontal, QObject::tr("SEXE"));
+
+        ui->listebus->setModel(model) ;
 }

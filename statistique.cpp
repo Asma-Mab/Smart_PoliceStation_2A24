@@ -6,6 +6,7 @@ Statistique::Statistique(QWidget *personne) :
     ui(new Ui::Statistique)
 {
     ui->setupUi(this);
+
 }
 
 Statistique::~Statistique()

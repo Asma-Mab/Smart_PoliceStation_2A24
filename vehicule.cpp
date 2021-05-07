@@ -150,7 +150,7 @@ return model;
 //STAT
 QStringList vehicule::listevehicules(){
     QSqlQuery query;
-    query.prepare("select marque from VEHICULE");
+    query.prepare("select DISTINCT marque from VEHICULE");
     query.exec();
     QStringList list;
     while(query.next()){
@@ -162,7 +162,7 @@ QStringList vehicule::listevehicules(){
 
 int vehicule::calculmarque(QString marque){
     QSqlQuery query;
-     query.prepare("select  COUNT(marque) from VEHICULE  WHERE marque=:marque");
+     query.prepare("select  * from VEHICULE  WHERE marque=:marque");
      query.bindValue(":marque", marque );
      query.exec();
       int total=0;

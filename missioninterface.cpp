@@ -40,6 +40,7 @@ MissionInterface::MissionInterface(QWidget *parent) :
     //refresh combobox + tableau
     refreshmission();
     refreshvehicule();
+    statrefresh();
 
 }
 
@@ -73,12 +74,20 @@ void MissionInterface::refreshvehicule()
 //ajouter mission
 void MissionInterface::on_btn_ajouter_clicked()
 {
-    mission mis(ui->type->text(),ui->datemission->date(),ui->nom->text());
+    if(ui->type->text()!="" && ui->nom->text()!="")
+    {
+        mission mis(ui->type->text(),ui->datemission->date(),ui->nom->text());
     bool test = mis.ajouter();
     if(test)
 {
-        QMessageBox::information(nullptr, QObject::tr("Ajouter une mission"),
-        QObject::tr("mission ajouté.\n" "Click Cancel to exit."), QMessageBox::Cancel);
+        //NOTIFICATION
+        trayIcon = new QSystemTrayIcon(this);
+        trayIcon->setVisible(true);
+        trayIcon->setIcon(this->style()->standardIcon(QStyle::SP_DesktopIcon));
+        trayIcon->setToolTip("Ajouter" "\n"
+                        "Ajouter avec sucées");
+        trayIcon->showMessage("Ajouter","Ajouter avec sucées",QSystemTrayIcon::Information,1500);
+        trayIcon->show();
 
         }
           else
@@ -89,19 +98,32 @@ void MissionInterface::on_btn_ajouter_clicked()
           }
     //refresh combobox + tableau
     refreshmission();
+    }
+    else
+        QMessageBox::critical(nullptr, QObject::tr("Verifier les Champs"),
+                    QObject::tr("Erreur !.\n"
+                                "Click Cancel to exit."), QMessageBox::Cancel);
+
 }
 
 //ajouter vehicule
 
 void MissionInterface::on_btn_ajouter_2_clicked()
 {
+    if(ui->matricule->text() != "" && ui->marque->text() != "" )
+    {
     vehicule vehi(ui->matricule->text(),ui->marque->text());
     bool test = vehi.ajouter();
     if(test)
 {
-        QMessageBox::information(nullptr, QObject::tr("Ajouter un vehicule"),
-        QObject::tr("vehicule ajouté.\n" "Click Cancel to exit."), QMessageBox::Cancel);
-
+        //NOTIFICATION
+        trayIcon = new QSystemTrayIcon(this);
+        trayIcon->setVisible(true);
+        trayIcon->setIcon(this->style()->standardIcon(QStyle::SP_DesktopIcon));
+        trayIcon->setToolTip("Ajouter" "\n"
+                        "Ajouter avec sucées");
+        trayIcon->showMessage("Ajouter","Ajouter avec sucées",QSystemTrayIcon::Information,1500);
+        trayIcon->show();
         }
           else
           {
@@ -111,6 +133,12 @@ void MissionInterface::on_btn_ajouter_2_clicked()
           }
     //refresh combobox + tableau
     refreshvehicule();
+    }
+    else
+        QMessageBox::critical(nullptr, QObject::tr("Verifier les champs"),
+                    QObject::tr("Erreur !.\n"
+                                "Click Cancel to exit."), QMessageBox::Cancel);
+
 }
 
 //MODIFIER
@@ -143,10 +171,15 @@ void MissionInterface::on_btn_modif_clicked()
         {
             //refresh combobox + tableau
             refreshmission();
-            //message
-            QMessageBox::information(this, QObject::tr("Modifier mission"),
-                        QObject::tr("Mission Modifier.\n"
-                                    "Click Cancel to exit."), QMessageBox::Cancel);
+            //NOTIFICATION
+            trayIcon = new QSystemTrayIcon(this);
+            trayIcon->setVisible(true);
+            trayIcon->setIcon(this->style()->standardIcon(QStyle::SP_DesktopIcon));
+            trayIcon->setToolTip("Modifier" "\n"
+                            "Modifier avec sucées");
+            trayIcon->showMessage("Modifier","Modifier avec sucées",QSystemTrayIcon::Warning,1500);
+            trayIcon->show();
+
         }
         else
         {
@@ -174,11 +207,15 @@ void MissionInterface::on_btn_supp_clicked()
         {
             //refresh combobox + tableau
             refreshmission();
+            //NOTIFICATION
+            trayIcon = new QSystemTrayIcon(this);
+            trayIcon->setVisible(true);
+            trayIcon->setIcon(this->style()->standardIcon(QStyle::SP_DesktopIcon));
+            trayIcon->setToolTip("Supprimer" "\n"
+                            "Supprimer avec sucées");
+            trayIcon->showMessage("Supprimer","Modifier avec sucées",QSystemTrayIcon::Warning,1500);
+            trayIcon->show();
 
-            //message
-            QMessageBox::information(this, QObject::tr("Supprimer une mission"),
-                        QObject::tr("mission supprimé.\n"
-                                    "Click Cancel to exit."), QMessageBox::Cancel);
         }
         else
         {
@@ -266,10 +303,15 @@ void MissionInterface::on_btn_modif_2_clicked()
         {
             //refresh combobox + tableau
             refreshvehicule();
-            //message
-            QMessageBox::information(this, QObject::tr("Modifier vehicule"),
-                        QObject::tr("Vehicule Modifier.\n"
-                                    "Click Cancel to exit."), QMessageBox::Cancel);
+            //NOTIFICATION
+            trayIcon = new QSystemTrayIcon(this);
+            trayIcon->setVisible(true);
+            trayIcon->setIcon(this->style()->standardIcon(QStyle::SP_DesktopIcon));
+            trayIcon->setToolTip("Modifier" "\n"
+                            "Modifier avec sucées");
+            trayIcon->showMessage("Modifier","Modifier avec sucées",QSystemTrayIcon::Warning,1500);
+            trayIcon->show();
+
         }
         else
         {
@@ -314,10 +356,15 @@ void MissionInterface::on_btn_supp_2_clicked()
             //refresh combobox + tableau
             refreshvehicule();
 
-            //message
-            QMessageBox::information(this, QObject::tr("Supprimer Vehicule"),
-                        QObject::tr("Vehicule supprimé.\n"
-                                    "Click Cancel to exit."), QMessageBox::Cancel);
+            //NOTIFICATION
+            trayIcon = new QSystemTrayIcon(this);
+            trayIcon->setVisible(true);
+            trayIcon->setIcon(this->style()->standardIcon(QStyle::SP_DesktopIcon));
+            trayIcon->setToolTip("Supprimer" "\n"
+                            "Supprimer avec sucées");
+            trayIcon->showMessage("Supprimer","Supprimer avec sucées",QSystemTrayIcon::Warning,1500);
+            trayIcon->show();
+
         }
         else
         {
@@ -353,5 +400,86 @@ void MissionInterface::on_comboBox_tri_vehicule_currentIndexChanged(const QStrin
 
 }
 
+// STATISTIQUE
+
+void MissionInterface::statrefresh(){
+
+    QtCharts::QPieSeries *series=new QtCharts::QPieSeries();
+    QStringList l=tmpvehicule.listevehicules();
+   for (int i = 0; i < l.size(); ++i){
+
+       series->append("Vehicule marque :"+l[i] ,tmpvehicule.calculmarque(l[i]));
+   }
 
 
+    QtCharts::QPieSlice *slice1=series->slices().at(1);
+    slice1->setExploded(true);
+
+    QtCharts::QChart *chart =new QtCharts::QChart();
+    chart->addSeries(series);
+    chart->setTitle("statistiques");
+    chart->setAnimationOptions(QtCharts::QChart::AllAnimations);
+
+    QtCharts::QChartView *chartview=new QtCharts::QChartView(chart);
+
+    QGridLayout *mainLayout=new QGridLayout();
+    mainLayout->addWidget(chartview,0,0);
+    ui->statistiques->setLayout(mainLayout);
+
+}
+
+
+void MissionInterface::on_btnpdf_clicked()
+{
+
+    QString strStream;
+               QTextStream out(&strStream);
+               const int rowCount = ui->table_mission->model()->rowCount();
+               const int columnCount =ui->table_mission->model()->columnCount();
+
+               out <<  "<html>\n"
+                       "<head>\n"
+                       "<meta Content=\"Text/html; charset=Windows-1251\">\n"
+                       <<  QString("<title>%1</title>\n").arg("eleve")
+                       <<  "</head>\n"
+                       "<body bgcolor=#F4B8B8 link=#5000A0>\n"
+                          // "<img src='C:/Users/ksemt/Desktop/final/icon/logo.webp' width='20' height='20'>\n"
+                           "<img src='C:/Users/DeLL/Desktop/logooo.png' width='100' height='100'>\n"
+                           "<h1>   Liste des Session </h1>"
+                            "<h1>  </h1>"
+
+                           "<table border=1 cellspacing=0 cellpadding=2>\n";
+
+
+               // headers
+                   out << "<thead><tr bgcolor=#f0f0f0>";
+                   for (int column = 0; column < columnCount; column++)
+                       if (!ui->table_mission->isColumnHidden(column))
+                           out << QString("<th>%1</th>").arg(ui->table_mission->model()->headerData(column, Qt::Horizontal).toString());
+                   out << "</tr></thead>\n";
+                   // data table
+                      for (int row = 0; row < rowCount; row++) {
+                          out << "<tr>";
+                          for (int column = 0; column < columnCount; column++) {
+                              if (!ui->table_mission->isColumnHidden(column)) {
+                                  QString data = ui->table_mission->model()->data(ui->table_mission->model()->index(row, column)).toString().simplified();
+                                  out << QString("<td bkcolor=0>%1</td>").arg((!data.isEmpty()) ? data : QString("&nbsp;"));
+                              }
+                          }
+                          out << "</tr>\n";
+                      }
+                      out <<  "</table>\n"
+                          "</body>\n"
+                          "</html>\n";
+
+                      QTextDocument *document = new QTextDocument();
+                      document->setHtml(strStream);
+
+                      QPrinter printer;
+
+                      QPrintDialog *dialog = new QPrintDialog(&printer, NULL);
+                      if (dialog->exec() == QDialog::Accepted) {
+                          document->print(&printer);
+                   }
+
+}
