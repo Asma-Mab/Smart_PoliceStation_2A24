@@ -1,5 +1,6 @@
 #include "gestion_selmen.h"
 #include "ui_gestion_selmen.h"
+#include "smtp.h"
 
 gestion_selmen::gestion_selmen(QWidget *parent) :
     QMainWindow(parent),
@@ -8,6 +9,11 @@ gestion_selmen::gestion_selmen(QWidget *parent) :
     ui->setupUi(this);
     //affichage contenu base
     show_tables();
+    choix_pie();
+    ui->id_crime_modif->setModel(tmpcrim.remplircombocrime());
+    ui->id_criminel_modif->setModel(tmpcriminel.remplircombocriminel());
+    ui->crime->setModel(tmpcrim.remplircombocrime());
+    ui->crime_modif->setModel(tmpcrim.remplircombocrime());
 }
 
 gestion_selmen::~gestion_selmen()
@@ -54,28 +60,25 @@ void gestion_selmen::on_rech_criminel_textChanged(const QString &arg1)
 }
 
 //ajout
-void gestion_selmen::on_actionadd_criminel_triggered()
+
+void gestion_selmen::on_btnajoutcriminel_clicked()
 {
-    //creation instance
-        add_criminel ac(this);
+    //ajout
+    criminel mc(ui->id_criminel->text(),ui->nom->text(),ui->prenom->text(),ui->crime->currentText());
+   mc.ajouter();
+    mc.count_criminels();
+    //refresh du tableau (affichage)
+      show_tables();
+      //NOTIFICATION
+      trayIcon = new QSystemTrayIcon(this);
+      trayIcon->setVisible(true);
+      trayIcon->setIcon(this->style()->standardIcon(QStyle::SP_DesktopIcon));
+      trayIcon->setToolTip("Ajouter" "\n"
+                      "Ajouter avec sucées");
+      trayIcon->showMessage("Ajouter","Ajouter avec sucées",QSystemTrayIcon::Information,1500);
+      trayIcon->show();
 
-        //ouvrir dialog
-        int res=ac.exec();
-        if (res == QDialog::Rejected )
-            return;
 
-      //recuperation des donnees
-        QString s1=ac.id();
-        QString s2=ac.nom();
-        QString s3=ac.prenom();
-        QString s4=ac.crime();
-
-        //ajout
-        criminel mc(s1,s2,s3,s4);
-       mc.ajouter();
-        mc.count_criminels();
-        //refresh du tableau (affichage)
-          show_tables();
 }
 
 //get id from selected row
@@ -85,7 +88,7 @@ void gestion_selmen::on_table_criminel_clicked(const QModelIndex &index)
 }
 
 //suppression
-void gestion_selmen::on_actiondelete_criminel_triggered()
+void gestion_selmen::on_btnsuppcriminel_clicked()
 {
     criminel mc;
   mc.supprimer(selected_criminel);
@@ -93,38 +96,58 @@ void gestion_selmen::on_actiondelete_criminel_triggered()
   mc.count_criminels();
   //refresh du tableau (affichage)
     show_tables();
+    //NOTIFICATION
+    trayIcon = new QSystemTrayIcon(this);
+    trayIcon->setVisible(true);
+    trayIcon->setIcon(this->style()->standardIcon(QStyle::SP_DesktopIcon));
+    trayIcon->setToolTip("Supprimer" "\n"
+                    "Supprimer avec sucées");
+    trayIcon->showMessage("Supprimer","Supprimer avec sucées",QSystemTrayIcon::Warning,1500);
+    trayIcon->show();
+
 }
 
 
 //modification
 
-void gestion_selmen::on_table_criminel_doubleClicked(const QModelIndex &index)
+void gestion_selmen::on_id_criminel_modif_currentIndexChanged(const QString &arg1)
 {
-    add_criminel ac(this);
+    QSqlQuery query;
 
-  ac.fill_form(selected_criminel);
-  int res=ac.exec();
-  if (res == QDialog::Rejected )
-    return;
+    query =tmpcriminel.request(ui->id_criminel_modif->currentText());
+    if(query.exec())
+    {
+        while(query.next())
+        {
+            ui->nom_modif->setText(query.value(1).toString());
+            ui->prenom_modif->setText(query.value(2).toString());
+            ui->crime_modif->setCurrentText(query.value(3).toString());
+        }
+    }
 
+}
 
-  //recuperation des donnees
-    QString s2=ac.nom();
-    QString s3=ac.prenom();
-     QString s4=ac.crime();
-
+void gestion_selmen::on_btnamodifcriminel_clicked()
+{
     //mofication
-    criminel mc(selected_criminel,s2,s3,s4);
-    mc.modifier(selected_criminel);
+    criminel mc(ui->id_criminel_modif->currentText(),ui->nom_modif->text(),ui->prenom_modif->text(),ui->crime_modif->currentText());
+    mc.modifier(ui->id_criminel_modif->currentText());
 
     mc.count_criminels();
     //refresh du tableau (affichage)
       show_tables();
 
+      //NOTIFICATION
+      trayIcon = new QSystemTrayIcon(this);
+      trayIcon->setVisible(true);
+      trayIcon->setIcon(this->style()->standardIcon(QStyle::SP_DesktopIcon));
+      trayIcon->setToolTip("Modifier" "\n"
+                      "Modifier avec sucées");
+      trayIcon->showMessage("Modifier","Modifier avec sucées",QSystemTrayIcon::Information,1500);
+      trayIcon->show();
 
 
 }
-
 
 
 /************************** crime ********************************/
@@ -159,27 +182,25 @@ void gestion_selmen::on_rech_crime_textChanged(const QString &arg1)
 }
 
 //ajout
-void gestion_selmen::on_actionadd_crime_triggered()
+
+
+void gestion_selmen::on_btn_ajout_crim_clicked()
 {
-    //creation instance
-        add_crime ac(this);
+    crime mc(ui->id->text(),ui->type->currentText(),ui->date->text());
+   mc.ajouter();
+    //refresh du tableau (affichage)
+    show_crime();
+    sendMail();
 
-        //ouvrir dialog
-        int res=ac.exec();
-        if (res == QDialog::Rejected )
-            return;
+    //NOTIFICATION
+    trayIcon = new QSystemTrayIcon(this);
+    trayIcon->setVisible(true);
+    trayIcon->setIcon(this->style()->standardIcon(QStyle::SP_DesktopIcon));
+    trayIcon->setToolTip("Ajouter" "\n"
+                    "Ajouter avec sucées");
+    trayIcon->showMessage("Ajouter","Ajouter avec sucées",QSystemTrayIcon::Information,1500);
+    trayIcon->show();
 
-      //recuperation des donnees
-        QString s1=ac.id();
-        QString s2=ac.type();
-        QString s3=ac.date();
-
-        //ajout
-        crime mc(s1,s2,s3);
-        mc.ajouter();
-
-        //refresh du tableau (affichage)
-          show_crime();
 
 }
 
@@ -190,7 +211,8 @@ void gestion_selmen::on_table_crime_clicked(const QModelIndex &index)
 }
 
 //suppression
-void gestion_selmen::on_actiondelete_crime_triggered()
+
+void gestion_selmen::on_btnsuppcrime_clicked()
 {
     crime mc;
   mc.supprimer(selected_crime);
@@ -198,38 +220,126 @@ void gestion_selmen::on_actiondelete_crime_triggered()
  //refresh du tableau (affichage)
    show_crime();
 
+   //NOTIFICATION
+   trayIcon = new QSystemTrayIcon(this);
+   trayIcon->setVisible(true);
+   trayIcon->setIcon(this->style()->standardIcon(QStyle::SP_DesktopIcon));
+   trayIcon->setToolTip("Supprimer" "\n"
+                   "Supprimer avec sucées");
+   trayIcon->showMessage("Supprimer","Supprimer avec sucées",QSystemTrayIcon::Warning,1500);
+   trayIcon->show();
+
+
 }
 
-
 //modification
-void gestion_selmen::on_table_crime_doubleClicked(const QModelIndex &index)
+void gestion_selmen::on_id_crime_modif_currentIndexChanged(const QString &arg1)
 {
-    add_crime ac(this);
+    QSqlQuery query;
 
-  ac.fill_form(selected_crime);
-  int res=ac.exec();
-  if (res == QDialog::Rejected )
-    return;
+    query =tmpcrim.request(ui->id_crime_modif->currentText());
+    if(query.exec())
+    {
+        while(query.next())
+        {
+            ui->date_modif->setDate(QDate::fromString(query.value(1).toString(),"dd/MM/yyyy"));
+            ui->type_modif->setCurrentText(query.value(2).toString());
+        }
+    }
 
 
-  //recuperation des donnees
-    QString s2=ac.type();
-    QString s3=ac.date();
+}
 
+void gestion_selmen::on_btn_modif_crim_clicked()
+{
     //mofication
-    crime mc(selected_crime,s2,s3);
-    mc.modifier(selected_crime);
+    crime mc(ui->id_crime_modif->currentText(),ui->type_modif->currentText(),ui->date_modif->text());
+    mc.modifier(ui->id_crime_modif->currentText());
 
     //refresh du tableau (affichage)
       show_crime();
+      //NOTIFICATION
+      trayIcon = new QSystemTrayIcon(this);
+      trayIcon->setVisible(true);
+      trayIcon->setIcon(this->style()->standardIcon(QStyle::SP_DesktopIcon));
+      trayIcon->setToolTip("Modifier" "\n"
+                      "Modifier avec sucées");
+      trayIcon->showMessage("Modifier","Modifier avec sucées",QSystemTrayIcon::Warning,1500);
+      trayIcon->show();
 
 
 }
 
 //stat
-void gestion_selmen::on_stat_crime_clicked()
+void gestion_selmen::choix_pie()
 {
-    s = new stat_crime();
-  s->choix_pie();
-  s->show();
+
+    vector<QString> liste_type;
+    vector<qreal> count;
+    QSqlQuery q1,q2;
+    qreal tot=0,c;
+    q1.prepare("SELECT DISTINCT TYPE FROM CRIME");
+    q1.exec();
+    while (q1.next()){
+        liste_type.push_back(q1.value(0).toString());
+    }
+
+    q1.prepare("SELECT * FROM CRIME");
+    q1.exec();
+    while (q1.next()){
+        tot++;
+    }
+
+    for (auto i = liste_type.begin(); i != liste_type.end(); ++i) {
+         q2.prepare("SELECT * FROM CRIME where TYPE = :m");
+         q2.bindValue(":m", *i);
+         q2.exec();
+         c=0;
+         while (q2.next()){c++;}
+         count.push_back(c/tot);
+
+    }
+
+
+// Define slices and percentage of whole they take up
+QtCharts::QPieSeries *series = new QtCharts::QPieSeries();
+for(unsigned int i = 0; i < liste_type.size(); i++)
+series->append(liste_type[i] ,count[i]);
+
+
+
+
+// Create the chart widget
+QtCharts::QChart *chart = new QtCharts::QChart();
+
+// Add data to chart with title and show legend
+chart->addSeries(series);
+chart->legend()->show();
+
+
+// Used to display the chart
+chartView = new QtCharts::QChartView(chart,ui->label_stat);
+chartView->setRenderHint(QPainter::Antialiasing);
+chartView->setMinimumSize(400,400);
+
+chartView->show();
 }
+
+
+//MAILING
+void gestion_selmen::sendMail()
+{
+    Smtp* smtp = new Smtp("selmen.mabrouk@esprit.tn","191JMT1081","smtp.gmail.com", 465);
+    connect(smtp, SIGNAL(status(QString)), this, SLOT(mailSent(QString)));
+
+
+    smtp->sendMail("selmen.mabrouk@esprit.tn", "selmen.mabrouk@esprit.tn" ," CRIME","CRIME ajouter");
+}
+
+void gestion_selmen::mailSent(QString status)
+{
+    if(status == "Message sent")
+        QMessageBox::warning( 0, tr( "Qt Simple SMTP client" ), tr( "Message sent!\n\n" ) );
+}
+
+
